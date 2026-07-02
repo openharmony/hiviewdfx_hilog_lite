@@ -22,6 +22,7 @@ declare_args() {
   hilog_lite_hiview_hilog_file_buf_size = 512
   hilog_lite_disable_core_init = false
   hilog_lite_customize_implementation = false
+  hilog_lite_mini = false
 }
 
 config("hilog_lite_config") {
@@ -37,14 +38,21 @@ static_library("hilog_lite_static") {
   sources = [
     "hiview_log.c",
     "hiview_log_limit.c",
-    "hiview_output_log.c",
   ]
+
   defines = [
     "HIVIEW_LOG_FILE_SIZE=$hilog_lite_file_size",
     "LOG_LIMIT_DEFAULT=$hilog_lite_limit_level_default",
     "LOG_STATIC_CACHE_SIZE=$hilog_lite_log_static_cache_size",
     "HIVIEW_HILOG_FILE_BUF_SIZE=$hilog_lite_hiview_hilog_file_buf_size",
   ]
+
+  if (hilog_lite_mini) {
+    sources += [ "hiview_output_log_mini.c" ]
+    defines += [ "HIVIEW_OUTPUT_LOG_MINI" ]
+  } else {
+    sources += [ "hiview_output_log.c" ]
+  }
   if (hilog_lite_disable_cache) {
     defines += [ "DISABLE_HILOG_CACHE" ]
   }
