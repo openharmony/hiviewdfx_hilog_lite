@@ -57,9 +57,10 @@ void HiLogInit(void)
         HiLogRegisterModule(HILOG_MODULE_DATAMGR, "DATAMGR") == FALSE) {
         return;
     }
-
+#ifndef HIVIEW_OUTPUT_LOG_MINI
     HiviewRegisterInitFunc(HIVIEW_CMP_TYPE_LOG, InitLogOutput);
     HiviewRegisterInitFunc(HIVIEW_CMP_TYPE_LOG_LIMIT, InitLogLimit);
+#endif
     HILOG_DEBUG(HILOG_MODULE_HIVIEW, "hilog init success.");
 }
 #ifndef DISABLE_HILOG_LITE_CORE_INIT
